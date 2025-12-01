@@ -336,6 +336,39 @@ For local development with Docker:
 docker-compose up --build
 ```
 
+## Troubleshooting
+
+### NPM Permission Errors
+
+If you encounter permission errors when running npm commands, such as:
+
+```
+npm ERR! code EACCES
+npm ERR! syscall mkdir
+npm ERR! path /home/user/.npm
+npm ERR! errno -13
+```
+
+This typically occurs when npm cache folder contains root-owned files. To fix this issue, run the following command (replace `user` with your username):
+
+```bash
+sudo chown -R $(whoami) ~/.npm
+```
+
+Alternatively, you can avoid permission issues by:
+
+1. **Using Docker**: The Docker-based installation avoids npm permission issues entirely.
+
+2. **Using a Node Version Manager**: Tools like [nvm](https://github.com/nvm-sh/nvm) or [fnm](https://github.com/Schniz/fnm) install Node.js in your home directory, avoiding system-level permission issues.
+
+3. **Configuring npm to use a different directory**: You can configure npm to install global packages in a user-owned directory:
+   ```bash
+   mkdir ~/.npm-global
+   npm config set prefix '~/.npm-global'
+   export PATH=~/.npm-global/bin:$PATH
+   ```
+   Add the export line to your `~/.bashrc` or `~/.zshrc` to make it permanent.
+
 ## License
 
 This MCP server is licensed under the MIT License. This means you are free to use, modify, and distribute the software, subject to the terms and conditions of the MIT License. For more details, please see the LICENSE file in the project repository.
