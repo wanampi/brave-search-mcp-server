@@ -350,10 +350,13 @@ Run `nvm use --delete-prefix <version> --silent` to unset it.
 
 This occurs when your `~/.npmrc` file contains `globalconfig` or `prefix` settings that conflict with NVM's node version management. To fix this:
 
-1. **Quick fix** - Run the suggested command (replace `<version>` with your Node.js version):
+1. **Quick fix** - Run the command suggested in the error message, replacing `<version>` with your Node.js version:
    ```bash
-   nvm use --delete-prefix <version> --silent
-   # Example: nvm use --delete-prefix v22.21.1 --silent
+   # Find your current Node.js version
+   node --version
+   
+   # Run the NVM command with your version
+   nvm use --delete-prefix v22.21.1 --silent
    ```
 
 2. **Permanent fix** - Remove the conflicting settings from your `~/.npmrc`:
@@ -364,12 +367,17 @@ This occurs when your `~/.npmrc` file contains `globalconfig` or `prefix` settin
    # Create a backup before modifying
    cp ~/.npmrc ~/.npmrc.backup
    
-   # Remove globalconfig and prefix lines, or edit the file manually
+   # Edit manually or use these commands to remove the lines:
+   # On Linux:
    sed -i '/^globalconfig=/d' ~/.npmrc
    sed -i '/^prefix=/d' ~/.npmrc
+   
+   # On macOS:
+   sed -i '' '/^globalconfig=/d' ~/.npmrc
+   sed -i '' '/^prefix=/d' ~/.npmrc
    ```
 
-3. **Alternative** - Use the [Docker installation method](#docker) to avoid local Node.js configuration issues entirely.
+3. **Alternative** - Use the Docker installation method (see [Usage with Claude Desktop](#usage-with-claude-desktop) or [Build with Docker](#docker)) to avoid local Node.js configuration issues entirely.
 
 ## License
 
