@@ -355,8 +355,8 @@ This occurs when your `~/.npmrc` file contains `globalconfig` or `prefix` settin
    # Find your current Node.js version
    node --version
    
-   # Run the NVM command with your version
-   nvm use --delete-prefix v22.21.1 --silent
+   # Run the NVM command with your version (replace v22.x.x with your actual version)
+   nvm use --delete-prefix v22.x.x --silent
    ```
 
 2. **Permanent fix** - Remove the conflicting settings from your `~/.npmrc`:
