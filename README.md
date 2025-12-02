@@ -345,14 +345,15 @@ If you use [NVM (Node Version Manager)](https://github.com/nvm-sh/nvm) and encou
 ```
 Your user's .npmrc file (${HOME}/.npmrc)
 has a `globalconfig` and/or a `prefix` setting, which are incompatible with nvm.
-Run `nvm use --delete-prefix v22.21.1 --silent` to unset it.
+Run `nvm use --delete-prefix <version> --silent` to unset it.
 ```
 
 This occurs when your `~/.npmrc` file contains `globalconfig` or `prefix` settings that conflict with NVM's node version management. To fix this:
 
-1. **Quick fix** - Run the suggested command:
+1. **Quick fix** - Run the suggested command (replace `<version>` with your Node.js version):
    ```bash
-   nvm use --delete-prefix v22.21.1 --silent
+   nvm use --delete-prefix <version> --silent
+   # Example: nvm use --delete-prefix v22.21.1 --silent
    ```
 
 2. **Permanent fix** - Remove the conflicting settings from your `~/.npmrc`:
