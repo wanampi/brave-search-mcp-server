@@ -336,6 +336,37 @@ For local development with Docker:
 docker-compose up --build
 ```
 
+## Troubleshooting
+
+### NVM Compatibility with .npmrc
+
+If you use [NVM (Node Version Manager)](https://github.com/nvm-sh/nvm) and encounter this error:
+
+```
+Your user's .npmrc file (${HOME}/.npmrc)
+has a `globalconfig` and/or a `prefix` setting, which are incompatible with nvm.
+Run `nvm use --delete-prefix v22.21.1 --silent` to unset it.
+```
+
+This occurs when your `~/.npmrc` file contains `globalconfig` or `prefix` settings that conflict with NVM's node version management. To fix this:
+
+1. **Quick fix** - Run the suggested command:
+   ```bash
+   nvm use --delete-prefix v22.21.1 --silent
+   ```
+
+2. **Permanent fix** - Remove the conflicting settings from your `~/.npmrc`:
+   ```bash
+   # View current .npmrc contents
+   cat ~/.npmrc
+   
+   # Remove globalconfig and prefix lines, or edit the file manually
+   sed -i '/^globalconfig=/d' ~/.npmrc
+   sed -i '/^prefix=/d' ~/.npmrc
+   ```
+
+3. **Alternative** - Use the Docker installation method to avoid local Node.js configuration issues entirely.
+
 ## License
 
 This MCP server is licensed under the MIT License. This means you are free to use, modify, and distribute the software, subject to the terms and conditions of the MIT License. For more details, please see the LICENSE file in the project repository.
