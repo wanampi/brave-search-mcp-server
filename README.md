@@ -361,12 +361,15 @@ This occurs when your `~/.npmrc` file contains `globalconfig` or `prefix` settin
    # View current .npmrc contents
    cat ~/.npmrc
    
+   # Create a backup before modifying
+   cp ~/.npmrc ~/.npmrc.backup
+   
    # Remove globalconfig and prefix lines, or edit the file manually
    sed -i '/^globalconfig=/d' ~/.npmrc
    sed -i '/^prefix=/d' ~/.npmrc
    ```
 
-3. **Alternative** - Use the Docker installation method to avoid local Node.js configuration issues entirely.
+3. **Alternative** - Use the [Docker installation method](#docker) to avoid local Node.js configuration issues entirely.
 
 ## License
 
