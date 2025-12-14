@@ -16,7 +16,7 @@ const getDefaultRequestHeaders = (): Record<string, string> => {
   return {
     Accept: 'application/json',
     'Accept-Encoding': 'gzip',
-    'X-Subscription-Token': config.braveApiKey,
+    'X-API-Key': config.braveApiKey,
   };
 };
 
