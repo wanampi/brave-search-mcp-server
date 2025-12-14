@@ -25,7 +25,7 @@ async function main() {
   }
 
   console.log('Brave Search MCP Server - Example: Unlocking Samsung');
-  console.log('=' .repeat(60));
+  console.log('='.repeat(60));
   console.log();
 
   // Create the MCP server instance
