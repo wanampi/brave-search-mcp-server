@@ -2,6 +2,8 @@
 
 An MCP server implementation that integrates the Brave Search API, providing comprehensive search capabilities including web search, local business search, image search, video search, news search, and AI-powered summarization. This project supports both STDIO and HTTP transports, with STDIO as the default mode.
 
+**Privacy-Focused**: This server implements privacy protections including Do Not Track headers, API key sanitization, and query parameter masking. See [PRIVACY.md](PRIVACY.md) for details.
+
 ## Migration
 
 ### 1.x to 2.x
@@ -335,6 +337,18 @@ For local development with Docker:
 ```bash
 docker-compose up --build
 ```
+
+## Privacy
+
+This server is built with privacy as a core principle. Key privacy features include:
+
+- **Do Not Track (DNT)**: All API requests include the DNT header
+- **Data Sanitization**: Automatic redaction of API keys and sensitive query parameters from error messages
+- **Transparent User-Agent**: Clear identification of requests as MCP server traffic
+- **HTTPS-Only**: Enforced secure connections for custom Goggles
+- **No Data Collection**: No tracking, profiling, or storage of search history
+
+For complete privacy details, see [PRIVACY.md](PRIVACY.md).
 
 ## License
 
