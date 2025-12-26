@@ -250,6 +250,14 @@ For manual installation, add the following to your User Settings (JSON) or `.vsc
 }
 ```
 
+## Examples
+
+See the [examples directory](./examples) for demonstrations of using the server. For instance, to see how to search for "unlocking samsung":
+
+```bash
+npx tsx examples/search-unlocking-samsung.ts
+```
+
 ## Build
 
 ### Docker
