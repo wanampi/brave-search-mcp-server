@@ -1,6 +1,7 @@
 import type { Endpoints } from './types.js';
 import config from '../config.js';
 import { stringify } from '../utils.js';
+import pkg from '../../package.json' with { type: 'json' };
 
 const typeToPathMap: Record<keyof Endpoints, string> = {
   images: '/res/v1/images/search',
@@ -17,6 +18,8 @@ const getDefaultRequestHeaders = (): Record<string, string> => {
     Accept: 'application/json',
     'Accept-Encoding': 'gzip',
     'X-Subscription-Token': config.braveApiKey,
+    'User-Agent': `${pkg.name}/${pkg.version} (MCP Server)`,
+    DNT: '1', // Do Not Track signal for privacy
   };
 };
 
@@ -27,6 +30,42 @@ const isValidGoggleURL = (url: string) => {
   } catch {
     return false;
   }
+};
+
+/**
+ * Sanitizes sensitive data from URLs for privacy protection
+ * Masks query parameters that might contain PII
+ */
+const sanitizeUrlForLogging = (url: string): string => {
+  try {
+    const urlObj = new URL(url);
+    // Mask the query parameter value to protect privacy
+    if (urlObj.searchParams.has('q')) {
+      urlObj.searchParams.set('q', '[REDACTED]');
+    }
+    return urlObj.toString();
+  } catch {
+    return '[INVALID URL]';
+  }
+};
+
+/**
+ * Sanitizes error messages to prevent leaking sensitive data
+ * Removes API keys and masks query parameters
+ */
+const sanitizeErrorMessage = (message: string, apiKey: string): string => {
+  let sanitized = message;
+
+  // Remove API key if present
+  if (apiKey) {
+    sanitized = sanitized.replace(new RegExp(apiKey, 'g'), '[REDACTED-API-KEY]');
+  }
+
+  // Sanitize any URLs in the error message
+  const urlRegex = /https?:\/\/[^\s]+/g;
+  sanitized = sanitized.replace(urlRegex, (url) => sanitizeUrlForLogging(url));
+
+  return sanitized;
 };
 
 async function issueRequest<T extends keyof Endpoints>(
@@ -104,8 +143,11 @@ async function issueRequest<T extends keyof Endpoints>(
       errorMessage += `\n${await response.text()}`;
     }
 
+    // Sanitize error message to protect user privacy
+    const sanitizedMessage = sanitizeErrorMessage(errorMessage, config.braveApiKey);
+
     // TODO (Sampson): Setup proper error handling, updating state, etc.
-    throw new Error(errorMessage);
+    throw new Error(sanitizedMessage);
   }
 
   // Return Response
