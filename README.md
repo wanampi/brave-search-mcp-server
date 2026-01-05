@@ -350,6 +350,49 @@ For local development with Docker:
 docker-compose up --build
 ```
 
+## Troubleshooting
+
+### NVM Compatibility with .npmrc
+
+If you use [NVM (Node Version Manager)](https://github.com/nvm-sh/nvm) and encounter this error:
+
+```
+Your user's .npmrc file (${HOME}/.npmrc)
+has a `globalconfig` and/or a `prefix` setting, which are incompatible with nvm.
+Run `nvm use --delete-prefix <version> --silent` to unset it.
+```
+
+This occurs when your `~/.npmrc` file contains `globalconfig` or `prefix` settings that conflict with NVM's node version management. To fix this:
+
+1. **Quick fix** - Run the command suggested in the error message, replacing `<version>` with your Node.js version:
+   ```bash
+   # Find your current Node.js version
+   node --version
+   
+   # Run the NVM command with your version (replace v22.x.x with your actual version)
+   nvm use --delete-prefix v22.x.x --silent
+   ```
+
+2. **Permanent fix** - Remove the conflicting settings from your `~/.npmrc`:
+   ```bash
+   # View current .npmrc contents
+   cat ~/.npmrc
+   
+   # Create a backup before modifying
+   cp ~/.npmrc ~/.npmrc.backup
+   
+   # Edit manually or use these commands to remove the lines:
+   # On Linux:
+   sed -i '/^globalconfig=/d' ~/.npmrc
+   sed -i '/^prefix=/d' ~/.npmrc
+   
+   # On macOS:
+   sed -i '' '/^globalconfig=/d' ~/.npmrc
+   sed -i '' '/^prefix=/d' ~/.npmrc
+   ```
+
+3. **Alternative** - Use the Docker installation method (see [Usage with Claude Desktop](#usage-with-claude-desktop) or [Build with Docker](#docker)) to avoid local Node.js configuration issues entirely.
+
 ## License
 
 This MCP server is licensed under the MIT License. This means you are free to use, modify, and distribute the software, subject to the terms and conditions of the MIT License. For more details, please see the LICENSE file in the project repository.
